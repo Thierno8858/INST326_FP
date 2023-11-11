@@ -54,3 +54,24 @@ class Character:
         - item (str): The item to add to the inventory.
         """
         self.inventory.append(item)
+
+    def level(self, level):
+        """
+        Displays the challenge that the player is on.
+
+        Args:
+            level (int): The number value of which challenge the player is out of the total levels variable.
+
+        Returns:
+            String of challenge number out of toal levels.
+        """
+        self.challenge += level
+        totallevels = 3
+        # Display players level
+        levelmessage = f"You are on Challenge {self.challenge} out of {totallevels}"
+        return levelmessage    
+    
+def regeuxriddle():
+    # A puzzle where the player has to choose between 2-4 filters that correspond to regular expressions
+    # Once the match is made the expression will indicate a key to move forward in the game
+    pass
