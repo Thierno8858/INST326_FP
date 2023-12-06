@@ -155,10 +155,10 @@ class ChallengePanda(Character):
             if attack_input == "yes":
                 if self.attack():
                     print("You defeated the panda!")
-                    challenge_choice = input("Do you want to take on another challenge? (yes/no): ").lower()
+                    challenge_choice = input("Do you want to take on another challenge for a chance to recive another life? (yes/no): ").lower()
                     while challenge_choice not in ["yes", "no"]:
                         print("Invalid input! Please enter 'yes' or 'no'.")
-                        challenge_choice = input("Do you want to take on another challenge? (yes/no): ").lower()
+                        challenge_choice = input("Do you want to take on another challenge for a chance to recive another life? (yes/no): ").lower()
 
                     if challenge_choice == "yes":
                         # Assuming ObstacleCourse is defined and implemented 
