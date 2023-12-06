@@ -164,11 +164,15 @@ class ChallengePanda(Character):
                         # Assuming ObstacleCourse is defined and implemented 
                         obstacle_course_challenge = ObstacleCourse()
                         obstacle_course_challenge.run_obstacle_course()
+                        
+                        
                         # Check if the challenge is successful and update lives
-                        if obstacle_course_challenge.successful_challenge:
-                            self.gain_life()
-                        else:
-                            self.lose_life()
+                        #if obstacle_course_challenge.successful_challenge:
+                            #self.gain_life()
+                        #else:
+                            #self.lose_life()
+                            
+                            
                     else:
                         print("You decided not to take on another challenge.")
                         break
