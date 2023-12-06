@@ -63,8 +63,6 @@ class Character:
         if self.lives < 0:
             self.lives = 0  # Ensure lives do not go below zero
 
-
-
     def attack(self):
         """
         Simulate an attack. Generates a random number between 1 and 6.
@@ -81,13 +79,86 @@ class Character:
             print("Attack failed!")
         return success
 
+
+
+#  (ObstacleCourse) definition here
+
+class ObstacleCourse(Character):
+    def __init__(self):
+        # Initialize the ObstacleCourse by calling the parent class constructor
+        super().__init__()
+
+    def run_obstacle_course(self):
+        """
+        Simulate running an obstacle course. This method should be implemented by your groupmate.
+        """
+        # Placeholder code, replace with the actual obstacle course logic
+        print("Running the obstacle course... (Replace this with the actual obstacle course code)")
+        self.successful_challenge = True  # Placeholder, update based on the actual success or failure
+
+
+
+
+
+
+
+class ChallengePanda(Character):
+    def __init__(self):
+        # Initialize the ChallengePanda by calling the parent class constructor
+        super().__init__()
+
+    def battle_panda(self):
+        """
+        Start the battle with a panda. Prompt the user to input difficulty and attack the panda.
+        """
+        print("You encounter a fierce panda! Get ready for battle.")
+
+        # Prompt user to choose difficulty
+        difficulty_input = input("Choose difficulty (easy, normal, hard): ").lower()
+        self.difficulty = difficulty_input if difficulty_input in ["easy", "normal", "hard"] else "normal"
+        self.lives = self._set_starting_lives()
+
+        print(f"You chose {self.difficulty} difficulty. Starting with {self.lives} lives.")
+
+        # Battle the panda
+        while self.lives > 0:
+            print("\n--- Round Start ---")
+            self.display_stats()
+
+            # Prompt user to attack
+            attack_input = input("Do you want to attack? (yes/no): ").lower()
+            if attack_input == "yes":
+                if self.attack():
+                    print("You defeated the panda!")
+                    challenge_choice = input("Do you want to take on another challenge? (yes/no): ").lower()
+                    if challenge_choice == "yes":
+                        # Assuming ObstacleCourse is defined and implemented 
+                        obstacle_course_challenge = ObstacleCourse()
+                        obstacle_course_challenge.run_obstacle_course()
+                        # Check if the challenge is successful and update lives
+                        if obstacle_course_challenge.successful_challenge:
+                            self.gain_life()
+                        else:
+                            self.lose_life()
+                    else:
+                        print("You decided not to take on another challenge.")
+                        break
+                else:
+                    print("The panda counterattacks! You lose a life.")
+                    self.lose_life()
+            else:
+                print("You decide not to attack. The panda is unimpressed.")
+                break
+
+            if self.lives == 0:
+                print("Game Over! The panda has defeated you.")
+            else:
+                print(f"You have {self.lives} lives remaining.")
+
 # Example usage:
-player = Character(difficulty="hard")
-player.display_stats()
+if __name__ == "__main__":
+    # Create an instance of ChallengePanda
+    challenge_panda = ChallengePanda()
 
-
-# Simulate an attack
-attack_success = player.attack()
-print(f"Attack successful: {attack_success}")
-
-
+    # Start the battle with the panda
+    challenge_panda.battle_panda()
