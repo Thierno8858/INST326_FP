@@ -9,7 +9,7 @@ class Character:
         - difficulty (str): The difficulty level for determining the starting number of lives.
           Options: "easy", "normal", "hard".
         """
-        self.difficulty = difficulty.lower()
+        self.difficulty = self._get_valid_difficulty(difficulty)
         self.lives = self._set_starting_lives()
 
     def _set_starting_lives(self):
@@ -63,6 +63,27 @@ class Character:
         if self.lives < 0:
             self.lives = 0  # Ensure lives do not go below zero
 
+    def _get_valid_difficulty(self, difficulty_input):
+        """
+        Get a valid difficulty level from user input.
+
+        Parameters:
+        - difficulty_input (str): The user input for the difficulty level.
+
+        Returns:
+        - str: The valid difficulty level.
+        """
+        tries = 3
+        while tries > 0:
+            if difficulty_input.lower() in ["easy", "normal", "hard"]:
+                return difficulty_input.lower()
+            else:
+                print(f"Invalid input! You have {tries} {'tries' if tries > 1 else 'try'} remaining.")
+                difficulty_input = input("Choose difficulty (easy, normal, hard): ")
+                tries -= 1
+        print("Defaulting to normal difficulty.")
+        return "normal"
+
     def attack(self):
         """
         Simulate an attack. Generates a random number between 1 and 6.
@@ -79,9 +100,7 @@ class Character:
             print("Attack failed!")
         return success
 
-
-
-#  (ObstacleCourse) definition here
+# ObstacleCourse definition here (empty for now)
 
 class ObstacleCourse(Character):
     def __init__(self):
@@ -97,7 +116,7 @@ class ObstacleCourse(Character):
         self.successful_challenge = True  # Placeholder, update based on the actual success or failure
 
 
-
+# class (ObstacleCourse) definition ends here
 
 
 
@@ -113,9 +132,9 @@ class ChallengePanda(Character):
         """
         print("You encounter a fierce panda! Get ready for battle.")
 
-        # Prompt user to choose difficulty
-        difficulty_input = input("Choose difficulty (easy, normal, hard): ").lower()
-        self.difficulty = difficulty_input if difficulty_input in ["easy", "normal", "hard"] else "normal"
+        # Prompt user to choose difficulty with error handling
+        difficulty_input = input("Choose difficulty (easy, normal, hard): ")
+        self.difficulty = self._get_valid_difficulty(difficulty_input)
         self.lives = self._set_starting_lives()
 
         print(f"You chose {self.difficulty} difficulty. Starting with {self.lives} lives.")
@@ -125,12 +144,22 @@ class ChallengePanda(Character):
             print("\n--- Round Start ---")
             self.display_stats()
 
-            # Prompt user to attack
-            attack_input = input("Do you want to attack? (yes/no): ").lower()
+            # Prompt user to attack with error handling
+            while True:
+                attack_input = input("Do you want to attack? (yes/no): ").lower()
+                if attack_input in ["yes", "no"]:
+                    break
+                else:
+                    print("Invalid input! Please enter 'yes' or 'no'.")
+
             if attack_input == "yes":
                 if self.attack():
                     print("You defeated the panda!")
                     challenge_choice = input("Do you want to take on another challenge? (yes/no): ").lower()
+                    while challenge_choice not in ["yes", "no"]:
+                        print("Invalid input! Please enter 'yes' or 'no'.")
+                        challenge_choice = input("Do you want to take on another challenge? (yes/no): ").lower()
+
                     if challenge_choice == "yes":
                         # Assuming ObstacleCourse is defined and implemented 
                         obstacle_course_challenge = ObstacleCourse()
@@ -154,6 +183,8 @@ class ChallengePanda(Character):
                 print("Game Over! The panda has defeated you.")
             else:
                 print(f"You have {self.lives} lives remaining.")
+                
+                
 
 # Example usage:
 if __name__ == "__main__":
