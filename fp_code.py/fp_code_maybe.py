@@ -101,7 +101,20 @@ class Character:
         return success
 
 # ObstacleCourse definition here (empty for now)
-        
+class Game():
+    def __init__(self):
+        self.character = ChallengePanda()
+
+    def start_panda_fight(self):
+        self.character.battle_panda()
+
+    def start_obstacle_course(self):
+        obstacle_course_challenge = ObstacleCourse(difficulty=self.character.difficulty)
+        return obstacle_course_challenge.play_game()
+
+    def start_boss_fight(self):
+        boss_fight = Bossfight(current_lives=self.character.lives)
+        boss_fight.battle_boss()
 
 class ObstacleCourse(Character):
     OPERATIONS = ["intersection", "union", "difference"]
@@ -164,9 +177,15 @@ class ObstacleCourse(Character):
             if user_guess == correct_result:
                 print("Challenge successfully overcome!")
                 self.obstacle_count += 1
-                boss_fight = Bossfight()
-                    
-                boss_fight.battle_boss()
+                print('"Congratulations, excellent work my pupil')
+                user_progression = input("'Are you ready to move onwards?', the wise mage Aric asks (yes/no) ")
+                if user_progression == "yes":
+                    boss_fight = Bossfight()
+                    boss_fight.battle_boss()
+                else:
+                    print("Too bad, my child you must move forward regardless of if you are ready")
+                    boss_fight = Bossfight()
+                    boss_fight.battle_boss()
                 break
             else:
                 if attempt == 2:
@@ -181,10 +200,7 @@ class ObstacleCourse(Character):
             print("Congratulations! You've passed all obstacles and gained an extra life!")
             self.lives = Character.gain_life()
             self.obstacle_count = 0
-            print('"Congratulations, excellent work my pupil')
-            user_progression = input("'Are you ready to move onwards?', the wise mage Aric asks")
-            if user_progression == "yes":
-                Game.start_boss_fight()
+
             return True
         return False
 
@@ -253,7 +269,6 @@ class ChallengePanda(Character):
                         print("You decided not to take on another challenge.")
                         self.continue_fight = False  # Set to False as the fight is over
                         boss_fight = Bossfight()
-                    
                         boss_fight.battle_boss()
                     break  # Break out of the while loop as the panda fight is over
 
@@ -350,22 +365,9 @@ class Bossfight(Character):
             print("Game Over! You have been defeated.")
 
 
+import argparse
+import sys 
 
-                
-class Game():
-    def __init__(self):
-        self.character = ChallengePanda()
-
-    def start_panda_fight(self):
-        self.character.battle_panda()
-
-    def start_obstacle_course(self):
-        obstacle_course_challenge = ObstacleCourse(difficulty=self.character.difficulty)
-        return obstacle_course_challenge.play_game()
-
-    def start_boss_fight(self):
-        boss_fight = Bossfight(current_lives=self.character.lives)
-        boss_fight.battle_boss()
 
 if __name__ == "__main__":
     game = Game()
@@ -382,3 +384,12 @@ if __name__ == "__main__":
                 print("Game Over. You failed the obstacle course.")
         else:
             print("Game Over. You chose not to take on the obstacle course.")
+
+def parse_arguments():
+    """
+    Parse command line arguments.
+    """
+    parser = argparse.ArgumentParser(description='Run the adventure game from the command line.')
+    parser.add_argument('-d', '--difficulty', type=str, choices=['easy', 'normal', 'hard'], default='normal',
+                        help='Set the difficulty of the game (easy, normal, hard)')
+    return parser.parse_args()
