@@ -1,6 +1,23 @@
 import random
 
 class Character:
+    """
+    A class representing a character in a game with a set of attributes and actions.
+    The class and its methods completed by Thierno, demonstrating custom classes and optional parameters.
+    Attributes:
+    - difficulty (str): The difficulty level for determining the starting number of lives.
+      Options: "easy", "normal", "hard".
+    - lives (int): The current number of lives the character has.
+
+    Methods:
+    - __init__(self, difficulty="normal"): Initialize a Character instance based on the selected difficulty.
+    - display_stats(self, critical_threshold=2): Display the character's lives, indicating if in critical condition.
+    - gain_life(self, amount=1): Gain lives by the specified amount.
+    - lose_life(self, amount=1): Lose lives by the specified amount.
+    - attack(self): Simulate an attack and determine its success.
+    - _set_starting_lives(self): Set the starting number of lives based on the selected difficulty.
+    - _get_valid_difficulty(self, difficulty_input): Get a valid difficulty level from user input.
+    """
     def __init__(self, difficulty="normal"):
         """
         Initialize a Character instance based on the selected difficulty.
@@ -23,7 +40,7 @@ class Character:
             return 5
         elif self.difficulty == "hard":
             return 1
-        else:  # Default to "normal" difficulty
+        else:  
             return 3
 
     def display_stats(self, critical_threshold=2):
@@ -37,10 +54,10 @@ class Character:
         - critical_threshold (int): The lives threshold for considering the character in critical condition.
           Default is set to 2.
         """
-        # Display lives
+        
         lives_message = f"Lives: {self.lives}{' (Critical)' if self.lives < critical_threshold else ''}"
 
-        # Print the final message
+        
         print(lives_message)
 
     def gain_life(self, amount=1):
@@ -100,19 +117,57 @@ class Character:
             print("Attack failed!")
         return success
 
-# ObstacleCourse definition here (empty for now)
+
 class Game():
+    """
+    A class representing a game environment with challenges and a character.
+    The class and its methods completed by Srikar.
+
+    Attributes:
+    - character (ChallengePanda): The player character in the game.
+
+    Methods:
+    - __init__(self): Initialize a Game instance with a ChallengePanda character.
+    - start_panda_fight(self): Start a panda battle challenge for the character.
+    - start_obstacle_course(self): Start an obstacle course challenge with a difficulty based on the character's level.
+    Returns:
+      - str: The result of the obstacle course challenge.
+
+    - start_boss_fight(self): Initiate a boss fight challenge with the current lives of the character.
+    """
     def __init__(self):
+        """
+        Initialize a Game instance with a ChallengePanda character.
+        """
         self.character = ChallengePanda()
 
     def start_panda_fight(self):
+        """
+        Start a panda battle challenge for the character.
+        Side Effects:
+        - Modifies the state of the character by engaging in a panda battle.
+        """
         self.character.battle_panda()
 
     def start_obstacle_course(self):
+        """
+        Start an obstacle course challenge with a difficulty based on the character's level.
+        Returns:
+        - str: The result of the obstacle course challenge.
+        Side Effects:
+        - May modify the state of the character based on the outcome of the challenge.
+        """
+        obstacle_course_challenge = ObstacleCourse(difficulty=self.character.difficulty)
+        return obstacle_course_challenge.play_game()
         obstacle_course_challenge = ObstacleCourse(difficulty=self.character.difficulty)
         return obstacle_course_challenge.play_game()
 
     def start_boss_fight(self):
+        """
+        Initiate a boss fight challenge with the current lives of the character.
+        Side Effects:
+        - Modifies the state of the character by engaging in a boss fight.
+        """
         boss_fight = Bossfight(current_lives=self.character.lives)
         boss_fight.battle_boss()
 
@@ -129,15 +184,20 @@ class ObstacleCourse(Character):
             input("Press Enter to navigate to the next platform...")
             challenge_completed = self.handle_platform_challenge()
             if not challenge_completed:
-                return False  # Return False if the challenge was not completed
-        return True  # Return True if all challenges are completed
+                return False  
+        return True  
     
     def generate_random_platform(self):
         platforms = [
             {'A', 'B', 'C'},
             {'C', 'D', 'E'},
             {'B', 'D', 'F'},
-            # Add more platforms as needed
+            {'A', 'C', 'F'},
+            {'B', 'E', 'F'},
+            {'C', 'D', 'F'},
+            {'A', 'B', 'E'},
+            {'D', 'E', 'F'},
+            {'A', 'C', 'D'},
         ]
         return random.choice(platforms)
 
@@ -215,14 +275,14 @@ class ObstacleCourse(Character):
 
 
 
-# class (ObstacleCourse) definition ends here
+#ObstacleCourse ends here
 
 
 
 
 class ChallengePanda(Character):
     def __init__(self):
-        # Initialize the ChallengePanda by calling the parent class constructor
+        
         super().__init__()
         self.continue_fight = True
 
@@ -232,19 +292,19 @@ class ChallengePanda(Character):
         """
         print("You encounter a fierce panda! Get ready for battle.")
 
-        # Prompt user to choose difficulty with error handling
+        
         difficulty_input = input("Choose difficulty (easy, normal, hard): ")
         self.difficulty = self._get_valid_difficulty(difficulty_input)
         self.lives = self._set_starting_lives()
 
         print(f"You chose {self.difficulty} difficulty. Starting with {self.lives} lives.")
 
-        # Battle the panda
+        
         while self.lives > 0 and self.continue_fight:
             print("\n--- Round Start ---")
             self.display_stats()
 
-            # Prompt user to attack with error handling
+            
             while True:
                 attack_input = input("Do you want to attack? (yes/no): ").lower()
                 if attack_input in ["yes", "no"]:
@@ -263,21 +323,21 @@ class ChallengePanda(Character):
                     if challenge_choice == "yes":
                         obstacle_course_challenge = ObstacleCourse(difficulty=self.difficulty)
                         obstacle_course_challenge.play_game()
-                        self.continue_fight = False  # Set to False to prevent re-entering the panda fight
+                        self.continue_fight = False  
                         break
                     else:
                         print("You decided not to take on another challenge.")
-                        self.continue_fight = False  # Set to False as the fight is over
+                        self.continue_fight = False  
                         boss_fight = Bossfight()
                         boss_fight.battle_boss()
-                    break  # Break out of the while loop as the panda fight is over
+                    break  
 
                 else:
                     print("The panda counterattacks! You lose a life.")
                     self.lose_life()
             else:
                 print("You decide not to attack. The panda is unimpressed.")
-                break  # Break out of the while loop as the player chose not to attack
+                break  
 
             if self.lives == 0:
                 print("Game Over! The panda has defeated you.")
@@ -299,7 +359,7 @@ class Bossfight(Character):
         """
         Attack the boss and calculate damage. Generates random number between 1 and 7 for # of damage dealt
         """
-        damage = random.randint(1, 7)  # Random damage between 1 and 7
+        damage = random.randint(1, 7) 
         print(f"You attack the boss dealing {damage} damage.")
         self.boss_health -= damage
 
@@ -314,7 +374,7 @@ class Bossfight(Character):
         """
         Boss makes a counterattack with a 1 in 3 chance.
         """
-        if random.randint(1, 3) == 1:  # 1 in 3 chance
+        if random.randint(1, 3) == 1:
             print(f"The {self.boss_name} counterattacks!")
             self.lose_life()
             if self.lives > 0:
