@@ -356,10 +356,10 @@ class ChallengePanda(Character):
             if attack_input == "yes":
                 if self.attack():
                     print("""You defeated the panda! Having proved yourself, Aric entrusts you to embark on an obstacle course challenge""")
-                    challenge_choice = input("Do you want to take on another challenge for a chance to receive another life? He asks (yes/no): ").lower()
+                    challenge_choice = input("Do you want to take on another challenge for a chance to recieve another life? He asks (yes/no): ").lower()
                     while challenge_choice not in ["yes", "no"]:
                         print("Invalid input! Please enter 'yes' or 'no'.")
-                        challenge_choice = input("Do you want to take on another challenge for a chance to receive another life? (yes/no): ").lower()
+                        challenge_choice = input("Do you want to take on another challenge for a chance to recieve another life? (yes/no): ").lower()
 
                     if challenge_choice == "yes":
                         obstacle_course_challenge = ObstacleCourse(difficulty=self.difficulty)
@@ -389,6 +389,15 @@ class ChallengePanda(Character):
 
 
 class Bossfight(Character):
+    """Bilal:
+    This class initializes the bossfight class where the player takes on a more challenging opponent.
+    When the player
+
+    Args:
+        Character (Class): This is the character class bringing in the character specs.
+    Returns:
+        This will return a scatterplot png file that brings the player out of the computer
+    """
     def __init__(self, boss_name="Finale Projectus", boss_health=25):
         super().__init__()
         self.boss_name = boss_name
@@ -397,8 +406,14 @@ class Bossfight(Character):
     def attack_boss(self):
         """
         Attack the boss and calculate damage. Generates random number between 1 and 7 for # of damage dealt
+        Side Effects:
+        - Prints information about the attack damage and the boss's remaining health.
+        - Modifies the boss's health based on the damage dealt.
+
+        Returns:
+        bool: True if the boss is defeated (boss's health <= 0), False otherwise
         """
-        damage = random.randint(1, 7) 
+        damage = random.randint(1, 7)  # Random damage between 1 and 7
         print(f"You attack the boss dealing {damage} damage.")
         self.boss_health -= damage
 
@@ -413,7 +428,7 @@ class Bossfight(Character):
         """
         Boss makes a counterattack with a 1 in 3 chance.
         """
-        if random.randint(1, 3) == 1:
+        if random.randint(1, 3) == 1:  # 1 in 3 chance
             print(f"The {self.boss_name} counterattacks!")
             self.lose_life()
             if self.lives > 0:
@@ -423,6 +438,21 @@ class Bossfight(Character):
 
 
     def battle_boss(self):
+        """Conducts a battle against a boss character in a game.
+        This method manages a turn-based battle between the player and a boss. The player is given an option to attack 
+        each turn. If the player attacks, there is a chance the boss might be defeated or counterattack. The battle 
+        continues until either the boss is defeated or the player loses all lives. Upon defeating the boss, the player 
+        is prompted to visualize a 'scroll' using a scatter plot generated from a CSV file.
+
+    Side Effects:
+        - Prints battle status, instructions, and outcomes to the console.
+        - Reads data from 'FPscroll.csv' and creates a scatter plot saved as 'scroll_visualization.png' if the boss is defeated.
+        - Modifies the instance's state, including updating the boss's health and the player's lives.
+        - Waits for and processes user input during the battle.
+
+    Returns:
+        None. However, if the boss is defeated, a scatter plot is saved as an image file 'scroll_visualization.png'.
+        """
         print("""Prepare yourself Oop, this battle is not for the faint of heart.
               This opponent has a 1 in 3 chance of counterattacking and claiming one of your lives.
               Good luck.""")
@@ -490,7 +520,9 @@ if __name__ == "__main__":
 
 def parse_arguments():
     """
-    Parse command line arguments.
+    Bilal:
+    Parse command line arguments. This takes the program and allows it to run from the commandline with an optional argument for difficulty.
+    Returns: parser
     """
     parser = argparse.ArgumentParser(description='Run the adventure game from the command line.')
     parser.add_argument('-d', '--difficulty', type=str, choices=['easy', 'normal', 'hard'], default='normal',
