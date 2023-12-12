@@ -230,6 +230,12 @@ class ChallengePanda(Character):
         """
         Start the battle with a panda. Prompt the user to input difficulty and attack the panda.
         """
+        print("""
+                You are Oop. Oop is an INST326 student with a programming final project that's left him utterly overwhelmed. 
+                All of a sudden bugs overrun your computer and you are immersed in the dangerous world of your computer,
+                guided only by the things you learned and the wise mage, Aric.
+                He warns you of beasts that lurk yet you feel woefully unprepared, when all of a sudden...
+              """)
         print("You encounter a fierce panda! Get ready for battle.")
 
         # Prompt user to choose difficulty with error handling
@@ -254,8 +260,8 @@ class ChallengePanda(Character):
 
             if attack_input == "yes":
                 if self.attack():
-                    print("You defeated the panda!")
-                    challenge_choice = input("Do you want to take on another challenge for a chance to receive another life? (yes/no): ").lower()
+                    print("""You defeated the panda! Having proved yourself, Aric entrusts you to embark on an obstacle course challenge""")
+                    challenge_choice = input("Do you want to take on another challenge for a chance to receive another life? He asks (yes/no): ").lower()
                     while challenge_choice not in ["yes", "no"]:
                         print("Invalid input! Please enter 'yes' or 'no'.")
                         challenge_choice = input("Do you want to take on another challenge for a chance to receive another life? (yes/no): ").lower()
@@ -266,7 +272,7 @@ class ChallengePanda(Character):
                         self.continue_fight = False  # Set to False to prevent re-entering the panda fight
                         break
                     else:
-                        print("You decided not to take on another challenge.")
+                        print("You decided not to take on another challenge. Aric is disappointed")
                         self.continue_fight = False  # Set to False as the fight is over
                         boss_fight = Bossfight()
                         boss_fight.battle_boss()
@@ -324,6 +330,9 @@ class Bossfight(Character):
 
 
     def battle_boss(self):
+        print("""Prepare yourself Oop, this battle is not for the faint of heart.
+              This opponent has a 1 in 3 chance of counterattacking and claiming one of your lives.
+              Good luck.""")
         print(f"You have encountered {self.boss_name}, prepare for battle!")
         
         while self.lives > 0 and self.boss_health > 0:
@@ -338,7 +347,7 @@ class Bossfight(Character):
             if attack_input == "yes":
                 boss_defeated = self.attack_boss()
                 if boss_defeated:
-                    print
+                    print("You defeated the Boss and he dropped an indecipherable scroll. \n Aric tells you you must *visualize* the scroll")
                     viz_input = input("Are you ready to visualize the scroll? (yes/no): ")
                     while viz_input not in ["yes", "no"]:
                         print("Invalid input! Please enter 'yes' or 'no'.")
@@ -348,6 +357,7 @@ class Bossfight(Character):
                         plot.set_title('Great Job!')
                         plot.set_ylabel('You Win!')
                         plot.set_xlabel('You have defeated the enemies and escaped the computer!')
+                        plot.savefig('scroll_visualization.png')
 
                     break
                 else:
