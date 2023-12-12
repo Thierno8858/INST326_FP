@@ -1,4 +1,6 @@
 import random
+import pandas as pd
+import seaborn as sns
 
 class Character:
     """
@@ -282,12 +284,45 @@ class ObstacleCourse(Character):
 
 class ChallengePanda(Character):
     def __init__(self):
-        
+        """
+        Initialize a ChallengePanda instance.
+
+        This class represents the player's character in a battle against a fierce panda in a computer-themed world. The
+        character's attributes and progress are tracked during the battle.
+
+        Args:
+            None
+
+        Side Effects:
+            - Initializes the character's attributes, including lives and difficulty level.
+            - Sets the continue_fight flag to True, indicating that the battle is ongoing.
+
+        Returns:
+            None
+        """
         super().__init__()
         self.continue_fight = True
 
     def battle_panda(self):
         """
+        Start the battle with a panda.
+
+        This method initializes a battle with a fierce panda in a computer-themed world. It prompts the user to choose a
+        difficulty level for the battle, then engages the user in a turn-based combat scenario. The user can choose to
+        attack or not, and the panda will counterattack if not defeated. After the battle, the user may have the option
+        to take on an obstacle course challenge or face a boss fight, depending on the outcome.
+
+        Args:
+            None
+
+        Side Effects:
+            - Prints messages to the console to narrate the battle.
+            - Prompts the user for input and processes user choices.
+            - May lead to the creation and execution of an obstacle course challenge or a boss fight.
+
+        Returns:
+            None
+            
         Start the battle with a panda. Prompt the user to input difficulty and attack the panda.
         """
         print("""
@@ -351,9 +386,7 @@ class ChallengePanda(Character):
                 print(f"You have {self.lives} lives remaining.")
                 
 
-import random
-import pandas as pd
-import seaborn as sns
+
 
 class Bossfight(Character):
     def __init__(self, boss_name="Finale Projectus", boss_health=25):
