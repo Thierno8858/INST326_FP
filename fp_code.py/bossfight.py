@@ -37,6 +37,13 @@ class Bossfight(Character):
 
 
     def battle_boss(self):
+        """Initiate the round of the boss fight and the outcomes of the fight.
+        Parameters: 
+        self.lives = life count(int)
+        df = the scatterplot that draws out the victory message(dataframe)
+        returns:
+        A visualization of the dataframe provided by defeating the boss
+        """
         print(f"You have encountered {self.boss_name}, prepare for battle!")
         
         while self.lives > 0 and self.boss_health > 0:
@@ -48,9 +55,10 @@ class Bossfight(Character):
                 print("Invalid input! Please enter 'yes' or 'no'.")
                 attack_input = input("Do you want to attack? (yes/no): ").lower()
 
-            if attack_input == "yes":
+            if attack_input == "yes": # player deals a random amount of damage between 1 and 7
                 boss_defeated = self.attack_boss()
                 if boss_defeated:
+                    print("You notice that once defeated, the boss drops an indecipherable scroll /n Confused, Aric encourages you to *visualize* what it means...")
                     viz_input = input("Are you ready to visualize the scroll? (yes/no): ")
                     while viz_input not in ["yes", "no"]:
                         print("Invalid input! Please enter 'yes' or 'no'.")
@@ -63,7 +71,7 @@ class Bossfight(Character):
 
                     break
                 else:
-                    if random.randint(1, 3) == 1:  # 1 in 3 chance
+                    if random.randint(1, 3) == 1:  # 1 in 3 chance that the boss attacks and causes you to lose a life
                         print(f"The {self.boss_name} counterattacks!")
                         self.lose_life()
                     if self.lives > 0:

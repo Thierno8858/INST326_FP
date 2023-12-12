@@ -71,7 +71,3 @@ class Character:
         levelmessage = f"You are on Challenge {self.challenge} out of {totallevels}"
         return levelmessage    
     
-def regeuxriddle():
-    # A puzzle where the player has to choose between 2-4 filters that correspond to regular expressions
-    # Once the match is made the expression will indicate a key to move forward in the game
-    pass

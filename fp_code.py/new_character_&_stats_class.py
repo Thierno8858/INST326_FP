@@ -114,6 +114,7 @@ class ObstacleCourse(Character):
         # Placeholder code, replace with the actual obstacle course logic
         print("Running the obstacle course... (Replace this with the actual obstacle course code)")
         self.successful_challenge = True  # Placeholder, update based on the actual success or failure
+        
 
 
 # class (ObstacleCourse) definition ends here
